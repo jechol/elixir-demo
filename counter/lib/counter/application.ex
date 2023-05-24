@@ -7,13 +7,16 @@ defmodule Counter.Application do
 
   @impl true
   def start(_type, _args) do
+    topologies = Application.get_env(:libcluster, :topologies) || []
+
     children = [
       # Start the Telemetry supervisor
       CounterWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Counter.PubSub},
       # Start the Endpoint (http/https)
-      CounterWeb.Endpoint
+      CounterWeb.Endpoint,
+      {Cluster.Supervisor, [topologies, [name: Counter.ClusterSupervisor]]}
       # Start a worker by calling: Counter.Worker.start_link(arg)
       # {Counter.Worker, arg}
     ]
