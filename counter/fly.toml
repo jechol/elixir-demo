@@ -8,7 +8,7 @@ primary_region = "nrt"
 kill_signal = "SIGTERM"
 
 [env]
-  PHX_HOST = "counter-demo.fly.dev"
+  PHX_HOST = "counter.jechol.com"
   PORT = "8080"
 
 [http_service]
