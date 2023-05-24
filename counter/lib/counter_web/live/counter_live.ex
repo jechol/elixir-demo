@@ -1,5 +1,4 @@
 defmodule CounterWeb.CounterLive do
-  require Logger
   use CounterWeb, :live_view
 
   def mount(_params, _session, socket) do
@@ -9,18 +8,14 @@ defmodule CounterWeb.CounterLive do
 
     Agent.start(fn -> 0 end, name: {:global, :counter})
     count = Agent.get({:global, :counter}, fn x -> x end)
-    region = System.get_env("FLY_REGION") || "local"
-    {:ok, assign(socket, count: count, region: region)}
+    {:ok, assign(socket, count: count)}
   end
 
   def render(assigns) do
     ~H"""
-    <div class="container">
-      <h3>Region: <%= assigns.region %></h3>
-      <h1>Counter: <%= assigns.count %></h1>
-      <button phx-click="increment">Increment</button>
-      <button phx-click="decrement">Decrement</button>
-    </div>
+    <h1>Counter: <%= assigns.count %></h1>
+    <button phx-click="increment">Increment</button>
+    <button phx-click="decrement">Decrement</button>
     """
   end
 
