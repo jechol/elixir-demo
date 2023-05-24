@@ -26,15 +26,21 @@ defmodule CounterWeb.CounterLive do
   end
 
   def handle_event("increment", _params, socket) do
-    count = Agent.get_and_update({:global, :counter}, fn x -> {x + 1, x + 1} end)
-    Phoenix.PubSub.broadcast(Counter.PubSub, "counter", {:count, count})
+    count =
+      Agent.get_and_update({:global, :counter}, fn x ->
+        Phoenix.PubSub.broadcast(Counter.PubSub, "counter", {:count, x + 1})
+        {x + 1, x + 1}
+      end)
 
     {:noreply, assign(socket, count: count)}
   end
 
   def handle_event("decrement", _params, socket) do
-    count = Agent.get_and_update({:global, :counter}, fn x -> {x - 1, x - 1} end)
-    Phoenix.PubSub.broadcast(Counter.PubSub, "counter", {:count, count})
+    count =
+      Agent.get_and_update({:global, :counter}, fn x ->
+        Phoenix.PubSub.broadcast(Counter.PubSub, "counter", {:count, x - 1})
+        {x - 1, x - 1}
+      end)
 
     {:noreply, assign(socket, count: count)}
   end
