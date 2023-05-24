@@ -1,0 +1,23 @@
+# fly.toml app configuration file generated for counter-demo on 2023-05-24T23:16:52+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "counter-demo"
+primary_region = "nrt"
+kill_signal = "SIGTERM"
+
+[env]
+  PHX_HOST = "counter-demo.fly.dev"
+  PORT = "8080"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  [http_service.concurrency]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 1000
